@@ -1,0 +1,10 @@
+delete from Customers where customer_id = 2; 
+delete from Customers where customer_id in (1,2,3);
+delete from vehicles; 
+delete from products where product_id = 2;
+delete from Products where stock_quantity < 0;
+delete from product_reviews where review_id =1;
+delete from vehicles where in_service = 0;
+delete from service_feedback where service_rating < 1; 
+delete from product_reviews where comment_review is null;
+delete from return_requests where return_reason is null;
