@@ -1,4 +1,4 @@
-package com.solvd.delivery.db.connection;
+package com.solvd.delivery.db.mysql.connection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

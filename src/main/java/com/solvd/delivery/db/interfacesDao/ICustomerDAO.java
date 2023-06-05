@@ -1,4 +1,4 @@
-package com.solvd.delivery.db.interfaces;
+package com.solvd.delivery.db.interfacesDao;
 
 import com.solvd.delivery.db.model.Customer;
 

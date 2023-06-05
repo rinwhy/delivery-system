@@ -42,7 +42,7 @@ values
     (3, 1, 2);
 
 
-insert into Deliveries (expected_delivery_time, delivery_status, driver_id, order_id)
+insert into Deliveries (expected_delivery_date, delivery_status, driver_id, order_id)
 values
     ('2023-05-21', 1, 1, 1),
 	('2023-05-30', 0, 1, 2),

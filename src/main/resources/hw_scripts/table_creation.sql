@@ -3,9 +3,9 @@ Use Delivery_System;
 
  create table Customers (
 customer_id int primary key not null auto_increment,
-customer_name varchar(45) not null,
-address varchar(45) not null,
-contact_details varchar(45) not null
+customer_name varchar(100) not null,
+address varchar(100) not null,
+email varchar(100) not null unique
 );
 
 create table Products(
@@ -75,7 +75,7 @@ foreign key(customer_id) references Customers(customer_id)
 
 create table Vehicles(
 vehicle_id int primary key not null auto_increment,
-vehicle_make varchar(10) not null,
+vehicle_make varchar(45) not null,
 vehicle_model varchar(45) not null,
 capacity int not null,
 in_service tinyint not null
@@ -83,15 +83,15 @@ in_service tinyint not null
 
 create table Drivers(
 driver_id int primary key not null auto_increment,
-driver_name varchar(45) not null,
-contact_details varchar(45) not null,
+driver_name varchar(100) not null,
+email varchar(100) not null unique,
 vehicle_id int not null,
 foreign key(vehicle_id) references Vehicles(vehicle_id)
 );
 
 create table Deliveries(
 delivery_id int primary key not null auto_increment,
-expected_delivery_time datetime not null,
+expected_delivery_date date not null,
 delivery_status tinyint not null,
 driver_id int not null,
 order_id int not null,

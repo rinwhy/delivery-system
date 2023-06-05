@@ -1,7 +1,7 @@
-package com.solvd.delivery.db.dao;
+package com.solvd.delivery.db.mysql.dao;
 
-import com.solvd.delivery.db.connection.ConnectionPool;
-import com.solvd.delivery.db.interfaces.ICustomerDAO;
+import com.solvd.delivery.db.mysql.connection.ConnectionPool;
+import com.solvd.delivery.db.interfacesDao.ICustomerDAO;
 import com.solvd.delivery.db.model.Customer;
 
 import java.sql.*;
@@ -9,16 +9,10 @@ import java.sql.*;
 
 public class CustomerDAO implements ICustomerDAO {
 
-    public static void main(String[] args) throws SQLException {
-        Customer customer = new CustomerDAO().getUserByID(2);
-        System.out.println(customer);
-    }
-
     @Override
     public Customer getUserByID(int id) throws SQLException {
 
         Customer customer = new Customer();
-
         Connection connection = ConnectionPool.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMERS WHERE customer_id=?");

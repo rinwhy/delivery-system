@@ -1,12 +1,11 @@
 package com.solvd.delivery.db.model;
 
-public class Customer {
+public class Driver {
 
     private int id;
     private String name;
-    private String address;
     private String email;
-
+    private int vehicleID;
 
     public int getId() {
         return id;
@@ -24,14 +23,6 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -40,11 +31,11 @@ public class Customer {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                '}';
+    public int getVehicleID() {
+        return vehicleID;
+    }
+
+    public void setVehicleID(int vehicleID) {
+        this.vehicleID = vehicleID;
     }
 }
