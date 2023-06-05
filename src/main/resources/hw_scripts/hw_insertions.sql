@@ -28,6 +28,11 @@ values
 	('2023-05-25', null, 'in-transit', 1),
     ('2023-05-27', null, 'processing', 2);
 
+insert into Order_payments(payment_method, total_amount, order_id)
+values
+	('Credit Card', 47.97, 1),
+    ('Debit Card', 15.99, 2),
+    ('PayPal', 55.97,3);
     
 insert into Order_Items(order_id, quantity, product_id)
 values
@@ -40,7 +45,7 @@ values
 insert into Deliveries (expected_delivery_time, delivery_status, driver_id, order_id)
 values
     ('2023-05-21', 1, 1, 1),
-	('2023-05-30' , 0, 1, 2),
+	('2023-05-30', 0, 1, 2),
     ('2023-06-01', 0, 1, 3);
 
 

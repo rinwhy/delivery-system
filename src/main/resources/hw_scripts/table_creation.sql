@@ -25,15 +25,19 @@ customer_id int not null,
 foreign key(customer_id) references Customers(customer_id)
 );
 
+create table Order_Payments(
+payment_id int primary key not null auto_increment,
+payment_method varchar(45) not null,
+total_amount decimal(8,2) not null,
+order_id int not null,
+foreign key(order_id) references Orders(order_id)
+);
+
 create table Return_Requests(
 return_request_id int primary key not null auto_increment,
 return_reason varchar(45),
 return_status varchar(45) not null,
-customer_id int not null,
-product_id int not null,
 order_id int not null,
-foreign key(customer_id) references Customers(customer_id),
-foreign key(product_id) references Products(product_id),
 foreign key(order_id) references Orders(order_id)
 );
 
@@ -44,15 +48,6 @@ order_id int not null,
 product_id int not null,
 foreign key(order_id) references Orders(order_id),
 foreign key(product_id) references Products(product_id)
-);
-
-create table Order_Payments(
-payment_id int primary key not null auto_increment,
-payment_method varchar(45) not null,
-total_amount decimal not null,
-payment_status varchar(45) not null,
-order_id int not null,
-foreign key(order_id) references Orders(order_id)
 );
 
 create table Product_Reviews(
