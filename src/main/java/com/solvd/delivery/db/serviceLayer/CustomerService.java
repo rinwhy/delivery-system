@@ -4,20 +4,26 @@ import com.solvd.delivery.db.interfacesDao.ICustomerDAO;
 import com.solvd.delivery.db.model.Customer;
 import com.solvd.delivery.db.mysql.dao.CustomerDAO;
 
-import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerService {
 
-    public Customer getCustomer(int customerID) {
-        ICustomerDAO customerDao = new CustomerDAO();
+    ICustomerDAO customerDao = new CustomerDAO();
 
-        return null;
-
+    public Customer getCustomerByID(int customerID) {
+        return customerDao.getCustomerByID(customerID);
     }
 
-
-    public static void main(String[] args) throws SQLException {
-        Customer customer = new CustomerDAO().getUserByID(9);
-        System.out.println(customer);
+    public List<Customer> getAllCustomers() {
+        return customerDao.getAllCustomers();
     }
+
+    public void addCustomer(Customer customer) {
+        customerDao.addCustomer(customer);
+    }
+
+    public void deleteCustomerByID(int id) {
+        customerDao.deleteCustomerByID(id);
+    }
+
 }

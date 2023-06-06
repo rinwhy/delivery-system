@@ -3,9 +3,9 @@ package com.solvd.delivery.db.model;
 public class ReturnRequest {
 
     private int id;
-    private String returnReason;
+    private String reason;
     private String status;
-    private int orderID;
+    private Order order;
 
     public int getId() {
         return id;
@@ -15,12 +15,12 @@ public class ReturnRequest {
         this.id = id;
     }
 
-    public String getReturnReason() {
-        return returnReason;
+    public String getReason() {
+        return reason;
     }
 
-    public void setReturnReason(String returnReason) {
-        this.returnReason = returnReason;
+    public void setReason(String returnReason) {
+        this.reason = returnReason;
     }
 
     public String getStatus() {
@@ -32,10 +32,10 @@ public class ReturnRequest {
     }
 
     public int getOrderID() {
-        return orderID;
+        return order.getId();
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

@@ -7,8 +7,7 @@ public class Order {
     private int id;
     private Date orderDate;
     private Date deliveryDate;
-    private String orderStatus;
-    private int customerID;
+    private Customer customer;
 
     public int getId() {
         return id;
@@ -34,19 +33,20 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
     public int getCustomerID() {
-        return customerID;
+        return customer.getId();
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) { this.customer = customer;}
+
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", deliveryDate=" + deliveryDate +
+                ", customerID=" + customer.getId() +
+                '}';
     }
 }

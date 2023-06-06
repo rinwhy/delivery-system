@@ -9,7 +9,7 @@ public class ServiceFeedback {
     private int serviceRating;
     private String comment;
     private Timestamp timestamp;
-    private int orderID;
+    private Order order;
 
 
     public int getId() {
@@ -53,10 +53,10 @@ public class ServiceFeedback {
     }
 
     public int getOrderID() {
-        return orderID;
+        return order.getId();
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

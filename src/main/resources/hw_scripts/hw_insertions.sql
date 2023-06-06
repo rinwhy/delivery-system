@@ -1,4 +1,4 @@
-insert into Customers(customer_name, address, contact_details)
+insert into Customers(name, address, email)
 values
 	('John Doe', '123 New York', 'johndoe@gmail.com'),
 	('Janey Doe', '123 New York', 'janey_doe@gmail.com'),
@@ -6,27 +6,27 @@ values
 	('Bruce Manson' , 'Maryland' , 'Brucewayne@gmail.com');
     
 
-insert into Products(product_name, product_description, price, stock_quantity)
+insert into Products(name, description, price, stock)
 values
 	('Duracell AA Batteries', 'Duracell Coppertop AA batteries are made to power everyday devices', 19.99 , 150),
     ('Insulated Water Bottle', '40 fluid ounce, Insulated stainless steel water bottle, 100% BPA free', 15.99, 300);
 
 
-insert into Vehicles(vehicle_make, vehicle_model, capacity, in_service)
+insert into Vehicles(make, model, capacity, in_service)
 values
 	('Ford', 'E-Transit 2023', 300, 1);
 
 
-insert into Drivers(driver_name, contact_details, vehicle_id) 
+insert into Drivers(name, email, vehicle_id) 
 values
 	('Wes Finch', 'wesFinch@yahoo.com', 1);
 
 
-insert into Orders (order_date, delivery_date, order_status, customer_id)
+insert into Orders (order_date, delivery_date, customer_id)
 values 
-    ('2023-05-18', '2023-05-21', 'delivered', 3),
-	('2023-05-25', null, 'in-transit', 1),
-    ('2023-05-27', null, 'processing', 2);
+    ('2023-05-18', '2023-05-21', 3),
+	('2023-05-25', null, 1),
+    ('2023-05-27', null, 2);
 
 insert into Order_payments(payment_method, total_amount, order_id)
 values
@@ -42,11 +42,11 @@ values
     (3, 1, 2);
 
 
-insert into Deliveries (expected_delivery_date, delivery_status, driver_id, order_id)
+insert into Deliveries (expected_delivery_date, status, driver_id, order_id)
 values
-    ('2023-05-21', 1, 1, 1),
-	('2023-05-30', 0, 1, 2),
-    ('2023-06-01', 0, 1, 3);
+    ('2023-05-21', 'delivered', 1, 1),
+	('2023-05-30', 'In-transit', 1, 2),
+    ('2023-06-01', 'Processing', 1, 3);
 
 
 insert into notifications(message, time_stamp, customer_id, delivery_id)
@@ -61,6 +61,6 @@ values
 	(3, 'One of the bottles was missing the straw', '2023-05-21', 2, 3);
 
 
-insert into Service_Feedback (delivery_rating, service_rating, comments, time_stamp, order_id, customer_id)
+insert into Service_Feedback (delivery_rating, service_rating, comment, time_stamp, order_id, customer_id)
 values 
 	(5, 4, 'Shipping was fast, arrived on time', '2023-05-22', 1, 3);

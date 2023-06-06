@@ -8,8 +8,8 @@ public class ProductReview {
     private int rating;
     private String commentReview;
     private Timestamp timestamp;
-    private int productID;
-    private int customerID;
+    private Product product;
+    private Customer customer;
 
     public int getId() {
         return id;
@@ -44,18 +44,18 @@ public class ProductReview {
     }
 
     public int getProductID() {
-        return productID;
+        return product.getId();
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getCustomerID() {
-        return customerID;
+        return customer.getId();
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

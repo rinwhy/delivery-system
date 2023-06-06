@@ -6,7 +6,7 @@ public class Product {
     private String name;
     private String description;
     private double price;
-    private int stockQuantity;
+    private int stock;
 
     public int getId() {
         return id;
@@ -40,11 +40,23 @@ public class Product {
         this.price = price;
     }
 
-    public int getStockQuantity() {
-        return stockQuantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Product {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=$" + price +
+                ", stock=" + stock +
+                '}';
     }
 }

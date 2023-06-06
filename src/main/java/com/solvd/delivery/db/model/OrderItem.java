@@ -4,8 +4,8 @@ public class OrderItem {
 
     private int id;
     private int quantity;
-    private int orderID;
-    private int productID;
+    private Order order;
+    private Product product;
 
     public int getId() {
         return id;
@@ -24,18 +24,18 @@ public class OrderItem {
     }
 
     public int getOrderID() {
-        return orderID;
+        return order.getId();
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public int getProductID() {
-        return productID;
+        return product.getId();
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

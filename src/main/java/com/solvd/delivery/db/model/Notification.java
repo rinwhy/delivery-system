@@ -7,8 +7,8 @@ public class Notification {
     private int id;
     private String message;
     private Timestamp timestamp;
-    private int customerID;
-    private int deliveryID;
+    private Customer customer;
+    private Delivery delivery;
 
     public int getId() {
         return id;
@@ -35,18 +35,18 @@ public class Notification {
     }
 
     public int getCustomerID() {
-        return customerID;
+        return customer.getId();
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getDeliveryID() {
-        return deliveryID;
+        return delivery.getId();
     }
 
-    public void setDeliveryID(int deliveryID) {
-        this.deliveryID = deliveryID;
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 }

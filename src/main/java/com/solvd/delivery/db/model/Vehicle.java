@@ -47,4 +47,15 @@ public class Vehicle {
     public void setInService(boolean inService) {
         this.inService = inService;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle {" +
+                "id=" + id +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", capacity=" + capacity +
+                ", inService=" + inService +
+                '}';
+    }
 }

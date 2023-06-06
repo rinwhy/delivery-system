@@ -5,7 +5,7 @@ public class Driver {
     private int id;
     private String name;
     private String email;
-    private int vehicleID;
+    private Vehicle vehicle;
 
     public int getId() {
         return id;
@@ -32,10 +32,20 @@ public class Driver {
     }
 
     public int getVehicleID() {
-        return vehicleID;
+        return vehicle.getId();
     }
 
-    public void setVehicleID(int vehicleID) {
-        this.vehicleID = vehicleID;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", vehicleID=" + vehicle.getId() +
+                '}';
     }
 }

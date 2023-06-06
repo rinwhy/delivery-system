@@ -6,9 +6,9 @@ public class Delivery {
 
     private int id;
     private Date expectedDeliveryDate;
-    private boolean status;
-    private int driverID;
-    private int orderID;
+    private String status;
+    private Driver driver;
+    private Order order;
 
     public int getId() {
         return id;
@@ -26,27 +26,27 @@ public class Delivery {
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
     public int getDriverID() {
-        return driverID;
+        return driver.getId();
     }
 
-    public void setDriverID(int driverID) {
-        this.driverID = driverID;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     public int getOrderID() {
-        return orderID;
+        return order.getId();
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

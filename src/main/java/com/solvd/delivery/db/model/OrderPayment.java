@@ -5,7 +5,7 @@ public class OrderPayment {
     private int id;
     private String paymentMethod;
     private double totalAmount;
-    private int orderID;
+    private Order order;
 
     public int getId() {
         return id;
@@ -32,10 +32,10 @@ public class OrderPayment {
     }
 
     public int getOrderID() {
-        return orderID;
+        return order.getId();
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
