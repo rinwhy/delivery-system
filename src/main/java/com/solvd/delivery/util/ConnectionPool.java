@@ -21,7 +21,6 @@ public class ConnectionPool {
     private final List<Connection> pool;
     private final BlockingQueue<Connection> poolQueue;       // available connections within the pool
 
-    //constructor
     private ConnectionPool() {
         pool = new ArrayList<>(POOL_SIZE);
         poolQueue = new ArrayBlockingQueue<>(POOL_SIZE);

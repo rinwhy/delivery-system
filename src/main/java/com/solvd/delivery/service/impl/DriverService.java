@@ -1,4 +1,4 @@
-package com.solvd.delivery.serviceLayer;
+package com.solvd.delivery.service.impl;
 
 import com.solvd.delivery.dao.IDriverDAO;
 import com.solvd.delivery.bin.Driver;

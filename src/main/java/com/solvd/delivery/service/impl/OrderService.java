@@ -1,7 +1,6 @@
-package com.solvd.delivery.serviceLayer;
+package com.solvd.delivery.service.impl;
 
 import com.solvd.delivery.dao.IOrderDAO;
-import com.solvd.delivery.bin.Customer;
 import com.solvd.delivery.bin.Order;
 import com.solvd.delivery.dao.impl.OrderDAO;
 

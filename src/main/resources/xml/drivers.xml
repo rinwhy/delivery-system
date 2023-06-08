@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<drivers>
+    <driver id="1">
+        <name>Wes Finch</name>
+        <email>wesFinch@yahoo.com</email>
+        <vehicle id="1">
+            <make>Ford</make>
+            <model>E-Transit 2023</model>
+            <capacity>300</capacity>
+            <in_service>true</in_service>
+        </vehicle>
+    </driver>
+    <driver id="8">
+        <name>Tony Wall</name>
+        <email>TonyWall@gmail.com</email>
+        <vehicle id="1">
+            <make>Ford</make>
+            <model>E-Transit 2023</model>
+            <capacity>300</capacity>
+            <in_service>true</in_service>
+        </vehicle>
+    </driver>
+</drivers>

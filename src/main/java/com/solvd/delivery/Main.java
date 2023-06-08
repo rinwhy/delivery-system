@@ -1,15 +1,9 @@
 package com.solvd.delivery;
 
 import com.solvd.delivery.bin.*;
-import com.solvd.delivery.dao.ICustomerDAO;
 import com.solvd.delivery.dao.IOrderDAO;
-import com.solvd.delivery.dao.IProductDAO;
 import com.solvd.delivery.dao.IVehicleDAO;
 import com.solvd.delivery.dao.impl.*;
-import com.solvd.delivery.serviceLayer.VehicleService;
-
-import java.sql.Date;
-import java.util.List;
 
 public class Main {
 

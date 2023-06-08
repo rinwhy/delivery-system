@@ -4,7 +4,6 @@ import com.solvd.delivery.dao.IDriverDAO;
 import com.solvd.delivery.bin.Driver;
 import com.solvd.delivery.dao.IVehicleDAO;
 import com.solvd.delivery.util.ConnectionPool;
-import com.solvd.delivery.serviceLayer.VehicleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,7 +57,7 @@ public class DriverDAO implements IDriverDAO {
 
         Connection connection = cp.requestConnection();
 
-        VehicleService vs = new VehicleService();
+        VehicleDAO vehicleDAO = new VehicleDAO();
         List<Driver> driverList = new ArrayList<>();
 
         PreparedStatement ps = null;
@@ -70,7 +69,7 @@ public class DriverDAO implements IDriverDAO {
                 driver.setId(results.getInt("id"));
                 driver.setName(results.getString("name"));
                 driver.setEmail(results.getString("email"));
-                driver.setVehicle(vs.getVehicleByID(results.getInt("vehicle_id")));
+                driver.setVehicle(vehicleDAO.getByID(results.getInt("vehicle_id")));
                 driverList.add(driver);
             }
         } catch (SQLException e) {

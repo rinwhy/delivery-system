@@ -1,4 +1,4 @@
-package com.solvd.delivery.serviceLayer;
+package com.solvd.delivery.service.impl;
 
 import com.solvd.delivery.dao.IVehicleDAO;
 import com.solvd.delivery.bin.Vehicle;
