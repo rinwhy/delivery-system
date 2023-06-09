@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="drivers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="driver" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="name"/>
+                            <xs:element type="xs:string" name="email"/>
+                            <xs:element name="vehicle">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="xs:string" name="make"/>
+                                        <xs:element type="xs:string" name="model"/>
+                                        <xs:element type="xs:int" name="capacity"/>
+                                        <xs:element type="xs:boolean" name="in_service"/>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:int" name="id"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:int" name="id"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

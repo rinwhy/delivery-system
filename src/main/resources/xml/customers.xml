@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<customers>
+    <customer id="1">
+        <name>Jeff Goodman</name>
+        <address>990 Clearview Street</address>
+        <email>jefferman@gmail.com</email>
+    </customer>
+    <customer id="2">
+        <name>Kathy Bron</name>
+        <address>4398 California</address>
+        <email>kathyCaliBron@gmail.com</email>
+    </customer>
+</customers>

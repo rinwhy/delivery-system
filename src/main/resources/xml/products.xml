@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<products>
+    <product id="1">
+        <name>Duracell AA Batteries</name>
+        <description>Duracell Coppertop AA batteries are made to power everyday devices</description>
+        <price>19.99</price>
+        <stock>150</stock>
+    </product>
+    <product id="2">
+        <name>Insulated Water Bottle</name>
+        <description>40 fluid ounce, Insulated stainless steel water bottle, 100% BPA free</description>
+        <price>15.99</price>
+        <stock>300</stock>
+    </product>
+    <product id="6">
+        <name>PS5</name>
+        <description>Playstation 5, sony's latest console gaming system</description>
+        <price>500.00</price>
+        <stock>40</stock>
+    </product>
+</products>
