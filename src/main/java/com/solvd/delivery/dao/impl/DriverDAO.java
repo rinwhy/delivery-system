@@ -3,7 +3,7 @@ package com.solvd.delivery.dao.impl;
 import com.solvd.delivery.dao.IDriverDAO;
 import com.solvd.delivery.bin.Driver;
 import com.solvd.delivery.dao.IVehicleDAO;
-import com.solvd.delivery.util.ConnectionPool;
+import com.solvd.delivery.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,6 @@ public class DriverDAO implements IDriverDAO {
     private static final String DELETE = "DELETE FROM Drivers WHERE id = ?";
     private static final String UPDATE = "UPDATE Drivers SET name= ?, email= ?, vehicle_ID=?  WHERE id= ?";
 
-
     @Override
     public Driver getByID(int id) {
 
@@ -33,21 +32,20 @@ public class DriverDAO implements IDriverDAO {
         Driver driver = new Driver();
         IVehicleDAO vehicleDAO = new VehicleDAO();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_BY_ID);
+        try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                driver.setId(results.getInt("id"));
-                driver.setName(results.getString("name"));
-                driver.setEmail(results.getString("email"));
-                driver.setVehicle(vehicleDAO.getByID(results.getInt("vehicle_id")));
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    driver.setId(results.getInt("id"));
+                    driver.setName(results.getString("name"));
+                    driver.setEmail(results.getString("email"));
+                    driver.setVehicle(vehicleDAO.getByID(results.getInt("vehicle_id")));
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
         return driver;
     }
@@ -56,26 +54,24 @@ public class DriverDAO implements IDriverDAO {
     public List<Driver> getAll() {
 
         Connection connection = cp.requestConnection();
-
         VehicleDAO vehicleDAO = new VehicleDAO();
         List<Driver> driverList = new ArrayList<>();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_ALL);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                Driver driver = new Driver();
-                driver.setId(results.getInt("id"));
-                driver.setName(results.getString("name"));
-                driver.setEmail(results.getString("email"));
-                driver.setVehicle(vehicleDAO.getByID(results.getInt("vehicle_id")));
-                driverList.add(driver);
+        try (PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    Driver driver = new Driver();
+                    driver.setId(results.getInt("id"));
+                    driver.setName(results.getString("name"));
+                    driver.setEmail(results.getString("email"));
+                    driver.setVehicle(vehicleDAO.getByID(results.getInt("vehicle_id")));
+                    driverList.add(driver);
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
         return driverList;
     }
@@ -84,10 +80,7 @@ public class DriverDAO implements IDriverDAO {
     public void insert(Driver driver) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(INSERT);
+        try (PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, driver.getName());
             ps.setString(2, driver.getEmail());
             ps.setInt(3, driver.getVehicleID());
@@ -95,7 +88,7 @@ public class DriverDAO implements IDriverDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
@@ -103,16 +96,13 @@ public class DriverDAO implements IDriverDAO {
     public void deleteByID(int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(DELETE);
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
@@ -120,10 +110,7 @@ public class DriverDAO implements IDriverDAO {
     public void update(Driver driver, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, driver.getName());
             ps.setString(2, driver.getEmail());
             ps.setInt(3, driver.getVehicleID());
@@ -132,21 +119,9 @@ public class DriverDAO implements IDriverDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
-
-    private void closeResources(Connection connection, PreparedStatement ps) {
-        try {
-            if (ps != null) {
-                ps.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        cp.releaseConnection(connection);
-    }
-
 
 }
 

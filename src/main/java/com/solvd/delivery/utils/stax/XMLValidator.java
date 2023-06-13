@@ -1,4 +1,4 @@
-package com.solvd.delivery.util.xml;
+package com.solvd.delivery.utils.stax;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,16 +16,8 @@ public class XMLValidator {
 
     public static final Logger LOGGER = LogManager.getLogger(XMLValidator.class);
 
-    private static final String XML_PATH = "src/main/resources/xml/products.xml";
-    private static final String XSD_Path = "src/main/resources/xml/products.xsd";
 
-    public static void main(String[] args) {
-
-        validateXML(XML_PATH, XSD_Path);
-    }
-
-
-    public static boolean validateXML(String xml, String xsd){
+    public static boolean validateXML(String xml, String xsd) {
 
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -33,13 +25,30 @@ public class XMLValidator {
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new File(xml)) {
             });
-        }
-        catch (IOException | SAXException e) {
-            LOGGER.warn("Error validating the XML!" +  e.getMessage());
+        } catch (IOException | SAXException e) {
+            LOGGER.warn("Error validating the XML!" + e.getMessage());
             return false;
         }
 
         LOGGER.info("Validation Successful");
         return true;
     }
+
+    public static boolean validateXML(File xml, File xsd) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(xsd);
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(xml) {
+            });
+        } catch (IOException | SAXException e) {
+            LOGGER.warn("Error validating the XML!" + e.getMessage());
+            return false;
+        }
+
+        LOGGER.info("Validation Successful");
+        return true;
+    }
+
+
 }

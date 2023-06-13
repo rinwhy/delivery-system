@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<orders>
+    <order id="1">
+        <orderDate>2023-02-03</orderDate>
+        <deliveryDate>2023-02-13</deliveryDate>
+        <customer id="1">
+            <name>Wimbledon CumberBatch</name>
+            <address>London</address>
+            <email>BennySnatch@gmail.com</email>
+        </customer>
+    </order>
+    <order id="2">
+        <orderDate>2023-03-09</orderDate>
+        <deliveryDate>2023-03-15</deliveryDate>
+        <customer id="2">
+            <name>another guy </name>
+            <address>ny</address>
+            <email>random@gmail.com</email>
+        </customer>
+    </order>
+</orders>

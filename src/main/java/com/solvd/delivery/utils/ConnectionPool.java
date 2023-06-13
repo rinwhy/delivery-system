@@ -1,4 +1,4 @@
-package com.solvd.delivery.util;
+package com.solvd.delivery.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool {
@@ -52,9 +53,9 @@ public class ConnectionPool {
 
     private Connection getConnection() {
         try {
-            return poolQueue.take();
+            return poolQueue.poll(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            LOGGER.error("\nInterrupted Exception");
+            LOGGER.error("\nInterrupted Exception" + e.getMessage());
         }
         return null;
     }
@@ -63,4 +64,3 @@ public class ConnectionPool {
         poolQueue.add(connection);
     }
 }
-

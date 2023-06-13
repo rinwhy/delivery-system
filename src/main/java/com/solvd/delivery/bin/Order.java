@@ -1,19 +1,45 @@
 package com.solvd.delivery.bin;
 
+import com.solvd.delivery.utils.jaxB.DateAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.Date;
 
-public class Order extends BaseTable{
+@XmlRootElement(name = "order")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Order  {
 
+    @XmlAttribute
+    private int id;
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date orderDate;
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date deliveryDate;
     private Customer customer;
 
+    public Order() {
+    }
+
+    public Order(Date orderDate, Date deliveryDate, Customer customer) {
+        this.orderDate = orderDate;
+        this.deliveryDate = deliveryDate;
+        this.customer = customer;
+    }
+
+    public Order(int id, Date orderDate, Date deliveryDate, Customer customer) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.deliveryDate = deliveryDate;
+        this.customer = customer;
+    }
+
     public int getId() {
-        return super.id;
+        return id;
     }
 
     public void setId(int id) {
-        super.id = id;
+        this.id = id;
     }
 
     public Date getOrderDate() {
@@ -42,10 +68,10 @@ public class Order extends BaseTable{
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + super.id +
+                "id=" + id +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
-                ", customerID=" + customer.getId() +
+                ", customerID=" + customer.toString() +
                 '}';
     }
 }

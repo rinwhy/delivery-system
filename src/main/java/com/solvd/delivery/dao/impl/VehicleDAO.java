@@ -2,7 +2,7 @@ package com.solvd.delivery.dao.impl;
 
 import com.solvd.delivery.dao.IVehicleDAO;
 import com.solvd.delivery.bin.Vehicle;
-import com.solvd.delivery.util.ConnectionPool;
+import com.solvd.delivery.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,22 +30,21 @@ public class VehicleDAO implements IVehicleDAO {
         Connection connection = cp.requestConnection();
         Vehicle vehicle = new Vehicle();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_BY_ID);
+        try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                vehicle.setId(results.getInt("id"));
-                vehicle.setMake(results.getString("make"));
-                vehicle.setModel(results.getString("model"));
-                vehicle.setCapacity(results.getInt("capacity"));
-                vehicle.setInService(results.getBoolean("in_Service"));
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    vehicle.setId(results.getInt("id"));
+                    vehicle.setMake(results.getString("make"));
+                    vehicle.setModel(results.getString("model"));
+                    vehicle.setCapacity(results.getInt("capacity"));
+                    vehicle.setInService(results.getBoolean("in_Service"));
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
         return vehicle;
     }
@@ -56,23 +55,22 @@ public class VehicleDAO implements IVehicleDAO {
         Connection connection = cp.requestConnection();
         List<Vehicle> vehicleList = new ArrayList<>();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_ALL);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                Vehicle vehicle = new Vehicle();
-                vehicle.setId(results.getInt("id"));
-                vehicle.setMake(results.getString("make"));
-                vehicle.setModel(results.getString("model"));
-                vehicle.setCapacity(results.getInt("capacity"));
-                vehicle.setInService(results.getBoolean("in_Service"));
-                vehicleList.add(vehicle);
+        try (PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    Vehicle vehicle = new Vehicle();
+                    vehicle.setId(results.getInt("id"));
+                    vehicle.setMake(results.getString("make"));
+                    vehicle.setModel(results.getString("model"));
+                    vehicle.setCapacity(results.getInt("capacity"));
+                    vehicle.setInService(results.getBoolean("in_Service"));
+                    vehicleList.add(vehicle);
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
         return vehicleList;
     }
@@ -81,10 +79,7 @@ public class VehicleDAO implements IVehicleDAO {
     public void insert(Vehicle vehicle) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(INSERT);
+        try (PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, vehicle.getMake());
             ps.setString(2, vehicle.getModel());
             ps.setInt(3, vehicle.getCapacity());
@@ -93,7 +88,7 @@ public class VehicleDAO implements IVehicleDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
@@ -102,10 +97,7 @@ public class VehicleDAO implements IVehicleDAO {
     public void update(Vehicle vehicle, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, vehicle.getMake());
             ps.setString(2, vehicle.getModel());
             ps.setInt(3, vehicle.getCapacity());
@@ -115,36 +107,22 @@ public class VehicleDAO implements IVehicleDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
-
     }
 
     @Override
     public void deleteByID(int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(DELETE);
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
-    private void closeResources(Connection connection, PreparedStatement ps) {
-        try {
-            if (ps != null) {
-                ps.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        cp.releaseConnection(connection);
-    }
 }

@@ -1,4 +1,4 @@
-package com.solvd.delivery.util;
+package com.solvd.delivery.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

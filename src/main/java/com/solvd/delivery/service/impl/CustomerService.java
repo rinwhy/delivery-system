@@ -3,27 +3,43 @@ package com.solvd.delivery.service.impl;
 import com.solvd.delivery.dao.ICustomerDAO;
 import com.solvd.delivery.bin.Customer;
 import com.solvd.delivery.dao.impl.CustomerDAO;
+import com.solvd.delivery.service.ICustomerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
-    ICustomerDAO customerDao = new CustomerDAO();
+    private static final Logger LOGGER = LogManager.getLogger(CustomerService.class);
 
-    public Customer getCustomerByID(int customerID) {
-        return customerDao.getByID(customerID);
+
+    @Override
+    public void saveCustomerToDB(Customer customer) {
+        if (customer.getName() != null &&
+            customer.getAddress() != null &&
+            customer.getEmail() != null) {
+            ICustomerDAO dao = new CustomerDAO();
+            dao.insert(customer);
+        }
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerDao.getAll();
+    @Override
+    public void showAllCustomers() {
+        ICustomerDAO dao = new CustomerDAO();
+        dao.getAll().forEach(customer -> LOGGER.info(customer.toString()));
     }
 
-    public void addCustomer(Customer customer) {
-        customerDao.insert(customer);
+    @Override
+    public void removeCustomerFromDB(Customer customer) {
+        ICustomerDAO dao = new CustomerDAO();
+        dao.deleteByID(customer.getId());
     }
 
-    public void deleteCustomerByID(int id) {
-        customerDao.deleteByID(id);
+    @Override
+    public void removeCustomerFromDB(int id) {
+        ICustomerDAO dao = new CustomerDAO();
+        dao.deleteByID(id);
     }
+
 
 }
