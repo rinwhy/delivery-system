@@ -2,7 +2,7 @@ package com.solvd.delivery.dao.impl;
 
 import com.solvd.delivery.dao.IProductDAO;
 import com.solvd.delivery.bin.Product;
-import com.solvd.delivery.util.ConnectionPool;
+import com.solvd.delivery.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,23 +32,21 @@ public class ProductDAO implements IProductDAO {
         Connection connection = cp.requestConnection();
         Product product = new Product();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_BY_ID);
+        try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                product.setId(results.getInt("id"));
-                product.setName(results.getString("name"));
-                product.setDescription(results.getString("description"));
-                product.setPrice(results.getDouble("price"));
-                product.setStock(results.getInt("stock"));
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    product.setId(results.getInt("id"));
+                    product.setName(results.getString("name"));
+                    product.setDescription(results.getString("description"));
+                    product.setPrice(results.getDouble("price"));
+                    product.setStock(results.getInt("stock"));
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
         return product;
     }
@@ -59,26 +57,23 @@ public class ProductDAO implements IProductDAO {
         Connection connection = cp.requestConnection();
         List<Product> productList = new ArrayList<>();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_ALL);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                Product product = new Product();
-                product.setId(results.getInt("id"));
-                product.setName(results.getString("name"));
-                product.setDescription(results.getString("description"));
-                product.setPrice(results.getDouble("price"));
-                product.setStock(results.getInt("stock"));
-                productList.add(product);
+        try (PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    Product product = new Product();
+                    product.setId(results.getInt("id"));
+                    product.setName(results.getString("name"));
+                    product.setDescription(results.getString("description"));
+                    product.setPrice(results.getDouble("price"));
+                    product.setStock(results.getInt("stock"));
+                    productList.add(product);
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
-
         return productList;
     }
 
@@ -86,10 +81,7 @@ public class ProductDAO implements IProductDAO {
     public void insert(Product product) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(INSERT);
+        try (PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
             ps.setDouble(3, product.getPrice());
@@ -98,8 +90,7 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
     }
 
@@ -107,17 +98,13 @@ public class ProductDAO implements IProductDAO {
     public void deleteByID(int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(DELETE);
+        try (PreparedStatement ps = connection.prepareStatement(DELETE)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
     }
 
@@ -125,10 +112,7 @@ public class ProductDAO implements IProductDAO {
     public void update(Product product, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
             ps.setDouble(3, product.getPrice());
@@ -138,8 +122,7 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
     }
 
@@ -147,18 +130,14 @@ public class ProductDAO implements IProductDAO {
     public void updateProductPrice(double price, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE_PRICE);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_PRICE)) {
             ps.setDouble(1, price);
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
     }
 
@@ -166,30 +145,15 @@ public class ProductDAO implements IProductDAO {
     public void updateProductStock(int stock, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE_STOCK);
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_STOCK)) {
             ps.setInt(1, stock);
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
-            ;
+            cp.releaseConnection(connection);
         }
-    }
-
-    private void closeResources(Connection connection, PreparedStatement ps) {
-        try {
-            if (ps != null) {
-                ps.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        cp.releaseConnection(connection);
     }
 
 }

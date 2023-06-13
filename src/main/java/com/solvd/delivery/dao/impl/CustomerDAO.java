@@ -2,7 +2,7 @@ package com.solvd.delivery.dao.impl;
 
 import com.solvd.delivery.dao.ICustomerDAO;
 import com.solvd.delivery.bin.Customer;
-import com.solvd.delivery.util.ConnectionPool;
+import com.solvd.delivery.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,21 +28,20 @@ public class CustomerDAO implements ICustomerDAO {
         Connection connection = cp.requestConnection();
         Customer customer = new Customer();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_BY_ID);
+        try (PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
             ps.setInt(1, id);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                customer.setId(results.getInt("id"));
-                customer.setName(results.getString("name"));
-                customer.setAddress(results.getString("address"));
-                customer.setEmail(results.getString("email"));
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    customer.setId(results.getInt("id"));
+                    customer.setName(results.getString("name"));
+                    customer.setAddress(results.getString("address"));
+                    customer.setEmail(results.getString("email"));
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
         return customer;
     }
@@ -53,24 +52,22 @@ public class CustomerDAO implements ICustomerDAO {
         Connection connection = cp.requestConnection();
         List<Customer> customerList = new ArrayList<>();
 
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(GET_ALL);
-            ResultSet results = ps.executeQuery();
-            while (results.next()) {
-                Customer customer = new Customer();
-                customer.setName(results.getString("name"));
-                customer.setId(results.getInt("id"));
-                customer.setAddress(results.getString("address"));
-                customer.setEmail(results.getString("email"));
-                customerList.add(customer);
+        try (PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
+            try (ResultSet results = ps.executeQuery();) {
+                while (results.next()) {
+                    Customer customer = new Customer();
+                    customer.setName(results.getString("name"));
+                    customer.setId(results.getInt("id"));
+                    customer.setAddress(results.getString("address"));
+                    customer.setEmail(results.getString("email"));
+                    customerList.add(customer);
+                }
             }
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
-
         return customerList;
     }
 
@@ -78,10 +75,7 @@ public class CustomerDAO implements ICustomerDAO {
     public void insert(Customer customer) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(INSERT);
+        try(PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getAddress());
             ps.setString(3, customer.getEmail());
@@ -89,7 +83,7 @@ public class CustomerDAO implements ICustomerDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
@@ -97,10 +91,7 @@ public class CustomerDAO implements ICustomerDAO {
     public void update(Customer customer, int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(UPDATE);
+        try(PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, customer.getName());
             ps.setString(2, customer.getAddress());
             ps.setString(3, customer.getEmail());
@@ -109,7 +100,7 @@ public class CustomerDAO implements ICustomerDAO {
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
     }
 
@@ -117,28 +108,14 @@ public class CustomerDAO implements ICustomerDAO {
     public void deleteByID(int id) {
 
         Connection connection = cp.requestConnection();
-
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement(DELETE);
+        try(PreparedStatement ps = connection.prepareStatement(DELETE)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
         } finally {
-            closeResources(connection, ps);
+            cp.releaseConnection(connection);
         }
-    }
-
-    private void closeResources(Connection connection, PreparedStatement ps) {
-        try {
-            if (ps != null) {
-                ps.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        cp.releaseConnection(connection);
     }
 
 }

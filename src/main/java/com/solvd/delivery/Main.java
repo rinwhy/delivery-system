@@ -1,68 +1,65 @@
 package com.solvd.delivery;
 
-import com.solvd.delivery.bin.*;
-import com.solvd.delivery.dao.IOrderDAO;
-import com.solvd.delivery.dao.IVehicleDAO;
-import com.solvd.delivery.dao.impl.*;
+import com.solvd.delivery.bin.Customer;
+import com.solvd.delivery.bin.Order;
+import com.solvd.delivery.service.impl.XMLService;
+import com.solvd.delivery.utils.jaxB.CustomersJaxB;
+import com.solvd.delivery.utils.jaxB.IJaxB;
+import com.solvd.delivery.utils.jaxB.OrdersJaxB;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
 
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
 
-        IOrderDAO orderDAO = new OrderDAO();
 
-
-////        System.out.println(orderDAO.getByID(2));
-//        Order order = new Order();
-//        order.setOrderDate(Date.valueOf("2023-06-06"));
-//        order.setDeliveryDate(Date.valueOf("2023-06-20"));
-//        order.setCustomer(new CustomerDAO().getByID(2));
-
-//        orderDAO.insert(order);
-
-//        orderDAO.updateDeliveryDate(null, 3 );
-
-//        for (Order o : orderDAO.getAllForCustomer(1)) {
-//            System.out.println(o);
-//        }
-
-
-//        IProductDAO productDAO = new ProductDAO();
+        XMLService xmlService = new XMLService();
 //
-////        System.out.println(productDAO.getByID(1));
-//
-//        Product newProduct = new Product();
-//        newProduct.setName("PS5");
-//        newProduct.setDescription("Playstation 5, sony's latest console gaming system");
-//        newProduct.setPrice(500);
-//        newProduct.setStock(40);
-////
-//        productDAO.insert(newProduct);
+//        // Stax validating XML with schema
+//        xmlService.validateXML("src/main/resources/xml/customers.xml", "src/main/resources/xml/customers.xsd");
+//        xmlService.readCustomerXMLStax(new File("src/main/resources/xml/customers.xml"));
 //
 //
-//        for (Product product : productDAO.getAll()) {
-//            System.out.println(product);
-//        }
+        // some customer data to marshall
+        IJaxB<Customer> customersJaxB = new CustomersJaxB();
+        Customer customer1 = new Customer(1, "Wimbledon CumberBatch", "London", "BennySnatch@gmail.com");
+        Customer customer2 = new Customer(2, "another guy ", "ny", "random@gmail.com");
+        List<Customer> list = new ArrayList<>();
+        list.add(customer1);
+        list.add(customer2);
+        customersJaxB.setList(list);
 
-        IVehicleDAO vehicleDAO = new VehicleDAO();
+        // some order data to marshall
+        IJaxB<Order> orderjaxB = new OrdersJaxB();
+        Order order1 = new Order(1, Date.valueOf("2023-02-03"), Date.valueOf("2023-02-13"), customer1);
+        Order order2 = new Order(2, Date.valueOf("2023-03-09"), Date.valueOf("2023-03-15"), customer2);
+        List<Order> orderList = new ArrayList<>();
+        orderList.add(order1);
+        orderList.add(order2);
+        orderjaxB.setList(orderList);
 
-//        System.out.println(vehicleDAO.getByID(1));
-//
-//        Vehicle nv = new Vehicle();
-//        nv.setMake("efsajkfsda");
-//        nv.setModel("dssdafg");
-//        nv.setCapacity(50);
-//        nv.setInService(true);
+        // output files
+        File customersXML = new File("src/main/resources/xml/jaxB_customers.xml");
+        File ordersXML = new File("src/main/resources/xml/jaxB_orders.xml");
 
-        vehicleDAO.deleteByID(4);
-        vehicleDAO.deleteByID(5);
-//vehicleDAO.deleteByID(2);
+        // marshalling and unmarshalling customers
+        xmlService.marshallToXMLJaxB(customersJaxB, customersXML);
+        IJaxB unmarshalled = xmlService.unmarshallFromXMLJaxB(CustomersJaxB.class, customersXML);
+        unmarshalled.getList().forEach(customer -> LOGGER.info(customer.toString() + "\n"));
 
 
-        for (Vehicle v : vehicleDAO.getAll()) {
-            System.out.println(v);
-        }
-
+        // marshalling and unmarshalling orders
+        xmlService.marshallToXMLJaxB(orderjaxB, ordersXML);
+        IJaxB unmarshalled2 = xmlService.unmarshallFromXMLJaxB(OrdersJaxB.class, ordersXML);
+        unmarshalled2.getList().forEach(order -> LOGGER.info(order.toString() + "\n") );
 
     }
 
