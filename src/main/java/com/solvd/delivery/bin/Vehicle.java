@@ -1,18 +1,37 @@
 package com.solvd.delivery.bin;
 
-public class Vehicle extends BaseTable{
+public class Vehicle {
 
+    private int id;
     private String make;
     private String model;
     private int capacity;
     private boolean inService;
 
+    public Vehicle() {
+    }
+
+    public Vehicle(String make, String model, int capacity, boolean inService) {
+        this.make = make;
+        this.model = model;
+        this.capacity = capacity;
+        this.inService = inService;
+    }
+
+    public Vehicle(int id, String make, String model, int capacity, boolean inService) {
+        this.id = id;
+        this.make = make;
+        this.model = model;
+        this.capacity = capacity;
+        this.inService = inService;
+    }
+
     public int getId() {
-        return super.id;
+        return id;
     }
 
     public void setId(int id) {
-        super.id = id;
+        this.id = id;
     }
 
     public String getMake() {
@@ -50,7 +69,7 @@ public class Vehicle extends BaseTable{
     @Override
     public String toString() {
         return "Vehicle {" +
-                "id=" + super.id +
+                "id=" + id +
                 ", make='" + make + '\'' +
                 ", model='" + model + '\'' +
                 ", capacity=" + capacity +

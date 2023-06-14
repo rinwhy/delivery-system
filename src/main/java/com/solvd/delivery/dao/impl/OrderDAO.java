@@ -83,7 +83,7 @@ public class OrderDAO implements IOrderDAO {
         try (PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setDate(1, order.getOrderDate());
             ps.setDate(2, order.getDeliveryDate());
-            ps.setInt(3, order.getCustomerID());
+            ps.setInt(3, order.getCustomer().getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
@@ -99,7 +99,7 @@ public class OrderDAO implements IOrderDAO {
         try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setDate(1, order.getOrderDate());
             ps.setDate(2, order.getDeliveryDate());
-            ps.setInt(3, order.getCustomerID());
+            ps.setInt(3, order.getCustomer().getId());
             ps.setInt(4, id);
             ps.executeUpdate();
         } catch (SQLException e) {

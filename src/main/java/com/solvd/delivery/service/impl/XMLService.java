@@ -26,7 +26,7 @@ public class XMLService {
         JaxBUtil.marshalling(targetClass, filePath);
     }
 
-    public <T> IJaxB unmarshallFromXMLJaxB(Class<T> targetClass, File filePath) {
+    public <T> T unmarshallFromXMLJaxB(Class<T> targetClass, File filePath) {
         return JaxBUtil.unMarshalling(targetClass, filePath);
     }
 
