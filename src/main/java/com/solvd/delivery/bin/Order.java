@@ -1,5 +1,6 @@
 package com.solvd.delivery.bin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.solvd.delivery.utils.jaxB.DateAdapter;
 
 import javax.xml.bind.annotation.*;
@@ -12,10 +13,15 @@ public class Order  {
 
     @XmlAttribute
     private int id;
+
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date orderDate;
+
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deliveryDate;
+
     private Customer customer;
 
     public Order() {
@@ -58,8 +64,8 @@ public class Order  {
         this.deliveryDate = deliveryDate;
     }
 
-    public int getCustomerID() {
-        return customer.getId();
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setCustomer(Customer customer) { this.customer = customer;}

@@ -83,7 +83,7 @@ public class DriverDAO implements IDriverDAO {
         try (PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, driver.getName());
             ps.setString(2, driver.getEmail());
-            ps.setInt(3, driver.getVehicleID());
+            ps.setInt(3, driver.getVehicle().getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error:" + e.getMessage());
@@ -113,7 +113,7 @@ public class DriverDAO implements IDriverDAO {
         try (PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, driver.getName());
             ps.setString(2, driver.getEmail());
-            ps.setInt(3, driver.getVehicleID());
+            ps.setInt(3, driver.getVehicle().getId());
             ps.setInt(4, id);
             ps.executeUpdate();
         } catch (SQLException e) {

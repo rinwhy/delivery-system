@@ -28,13 +28,13 @@ public class JaxBUtil {
     }
 
     //from xml to java
-    public static <T> IJaxB unMarshalling(Class<T> targetClass, File filePath) {
+    public static <T> T unMarshalling(Class<T> targetClass, File filePath) {
 
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(targetClass);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-            return (IJaxB) unmarshaller.unmarshal(filePath);
+            return (T) unmarshaller.unmarshal(filePath);
 
         } catch (JAXBException e) {
             LOGGER.error("JAXB Exception " + e.getMessage());

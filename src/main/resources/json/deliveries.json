@@ -1,0 +1,28 @@
+{
+  "id" : 1,
+  "delivery date" : "2023-02-13",
+  "status" : "In-Transit",
+  "driver" : {
+    "id" : 1,
+    "name" : "Johnny Drover",
+    "email" : "driver@gmail.com",
+    "vehicle" : {
+      "id" : 1,
+      "make" : "Ford",
+      "model" : "E-Transit 2023",
+      "capacity" : 300,
+      "inService" : true
+    }
+  },
+  "order" : {
+    "id" : 3,
+    "orderDate" : "2023-02-03",
+    "deliveryDate" : "2023-02-13",
+    "customer" : {
+      "id" : 3,
+      "name" : "Johanis Crabbington",
+      "address" : "Unknown",
+      "email" : "randomguy@gmail.com"
+    }
+  }
+}

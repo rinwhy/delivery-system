@@ -1,17 +1,37 @@
 package com.solvd.delivery.bin;
 
-public class Driver extends BaseTable{
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({ "id", "name", "email", "vehicle"})
+public class Driver {
+
+    private int id;
     private String name;
     private String email;
     private Vehicle vehicle;
 
+    public Driver() {
+    }
+
+    public Driver(String name, String email, Vehicle vehicle) {
+        this.name = name;
+        this.email = email;
+        this.vehicle = vehicle;
+    }
+
+    public Driver(int id, String name, String email, Vehicle vehicle) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.vehicle = vehicle;
+    }
+
     public int getId() {
-        return super.id;
+        return id;
     }
 
     public void setId(int id) {
-        super.id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -30,8 +50,8 @@ public class Driver extends BaseTable{
         this.email = email;
     }
 
-    public int getVehicleID() {
-        return vehicle.getId();
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public void setVehicle(Vehicle vehicle) {
@@ -41,7 +61,7 @@ public class Driver extends BaseTable{
     @Override
     public String toString() {
         return "Driver {" +
-                "id=" + super.id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", vehicleID=" + vehicle.getId() +

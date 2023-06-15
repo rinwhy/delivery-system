@@ -1,20 +1,48 @@
 package com.solvd.delivery.bin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.sql.Date;
 
-public class Delivery extends BaseTable{
+@JsonPropertyOrder({ "id", "expectedDeliveryDate", "status", "driver", "order"})
+public class Delivery {
 
+    private int id;
+
+    @JsonProperty("delivery date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date expectedDeliveryDate;
+
     private String status;
     private Driver driver;
     private Order order;
 
+    public Delivery() {
+    }
+
+    public Delivery(Date expectedDeliveryDate, String status, Driver driver, Order order) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
+        this.status = status;
+        this.driver = driver;
+        this.order = order;
+    }
+
+    public Delivery(int id, Date expectedDeliveryDate, String status, Driver driver, Order order) {
+        this.id = id;
+        this.expectedDeliveryDate = expectedDeliveryDate;
+        this.status = status;
+        this.driver = driver;
+        this.order = order;
+    }
+
     public int getId() {
-        return super.id;
+        return id;
     }
 
     public void setId(int id) {
-        super.id = id;
+        this.id = id;
     }
 
     public Date getExpectedDeliveryDate() {
@@ -33,19 +61,31 @@ public class Delivery extends BaseTable{
         this.status = status;
     }
 
-    public int getDriverID() {
-        return driver.getId();
+    public Driver getDriver() {
+        return driver;
     }
 
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
 
-    public int getOrderID() {
-        return order.getId();
+    public Order getOrder() {
+        return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id=" + id +
+                ", expectedDeliveryDate=" + expectedDeliveryDate +
+                ", status='" + status + '\'' +
+                ", driver=" + driver +
+                ", order=" + order +
+                '}';
     }
 }
