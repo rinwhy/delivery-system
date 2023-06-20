@@ -21,7 +21,7 @@ public class CustomerService implements ICustomerService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    return session.selectOne("myBatis.CustomerMapper.getByID", id);
+                    return session.selectOne("com.solvd.delivery.service.ICustomerService.CustomerMapper.getByID", id);
                 }
             } catch (IOException e) {
                 LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -35,7 +35,7 @@ public class CustomerService implements ICustomerService {
     public List<Customer> getAllCustomers() {
         try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
             try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                return session.selectList("myBatis.CustomerMapper.getAll");
+                return session.selectList("com.solvd.delivery.service.ICustomerService.CustomerMapper.getAll");
             }
         } catch (IOException e) {
             LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -51,7 +51,7 @@ public class CustomerService implements ICustomerService {
                 customer.getEmail() != null) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    int rowsAffected =  session.insert("myBatis.CustomerMapper.insert", customer);
+                    int rowsAffected =  session.insert("com.solvd.delivery.service.ICustomerService.CustomerMapper.insert", customer);
                     session.commit();
                     LOGGER.info("Successfully added to database, rows Affected " + rowsAffected);
                 }
@@ -70,7 +70,7 @@ public class CustomerService implements ICustomerService {
         if (customer.getId() > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    int rowsAffected =  session.delete("myBatis.CustomerMapper.delete", customer);
+                    int rowsAffected =  session.delete("com.solvd.delivery.service.ICustomerService.CustomerMapper.delete", customer);
                     session.commit();
                     LOGGER.info("Successfully removed from database, rows Affected " + rowsAffected);
                 }
@@ -87,7 +87,7 @@ public class CustomerService implements ICustomerService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    int rowsAffected = session.delete("myBatis.CustomerMapper.delete", id);
+                    int rowsAffected = session.delete("com.solvd.delivery.service.ICustomerService.CustomerMapper.delete", id);
                     session.commit();
                     LOGGER.info("Successfully removed from database, rows Affected " + rowsAffected);
                 }

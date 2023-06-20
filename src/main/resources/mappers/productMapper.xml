@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.ord//DTD Mapper 3.0//EN"
         "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="myBatis.ProductMapper">
+<mapper namespace="com.solvd.delivery.service.IProductService.ProductMapper">
 
     <select id="getByID" parameterType="int" resultMap="productResultMap">
         SELECT * FROM Products WHERE ID = #{id};

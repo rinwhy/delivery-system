@@ -23,7 +23,7 @@ public class ProductService implements IProductService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    return session.selectOne("myBatis.ProductMapper.getByID", id);
+                    return session.selectOne("com.solvd.delivery.service.IProductService.ProductMapper.getByID", id);
                 }
             } catch (IOException e) {
                 LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -37,7 +37,7 @@ public class ProductService implements IProductService {
     public List<Product> getAllProducts() {
         try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
             try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                return session.selectList("myBatis.ProductMapper.getAll");
+                return session.selectList("com.solvd.delivery.service.IProductService.ProductMapper.getAll");
             }
         } catch (IOException e) {
             LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -54,7 +54,7 @@ public class ProductService implements IProductService {
                 product.getStock() >= 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    int rowsAffected = session.insert("myBatis.ProductMapper.insert", product);
+                    int rowsAffected = session.insert("com.solvd.delivery.service.IProductService.ProductMapper.insert", product);
                     session.commit();
                     LOGGER.info("Rows Affected " + rowsAffected + "\n");
                 }
@@ -72,7 +72,7 @@ public class ProductService implements IProductService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    int rowsAffected = session.delete("myBatis.ProductMapper.delete", id);
+                    int rowsAffected = session.delete("com.solvd.delivery.service.IProductService.ProductMapper.delete", id);
                     session.commit();
                     LOGGER.info("Rows Affected " + rowsAffected + "\n");
                 }
@@ -93,7 +93,7 @@ public class ProductService implements IProductService {
                     map.put("id", id);
                     map.put("price", price);
 
-                    int rowsAffected = session.update("myBatis.ProductMapper.updatePrice", map);
+                    int rowsAffected = session.update("com.solvd.delivery.service.IProductService.ProductMapper.updatePrice", map);
                     session.commit();
                     LOGGER.info("Rows Affected " + rowsAffected + "\n");
 
@@ -115,7 +115,7 @@ public class ProductService implements IProductService {
                     map.put("id", id);
                     map.put("stock", stock);
 
-                    int rowsAffected = session.update("myBatis.ProductMapper.updateStock", map);
+                    int rowsAffected = session.update("com.solvd.delivery.service.IProductService.ProductMapper.updateStock", map);
                     session.commit();
                     LOGGER.info("Rows Affected " + rowsAffected + "\n");
                 }
