@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.ord//DTD Mapper 3.0//EN"
         "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="myBatis.OrderMapper">
+<mapper namespace="com.solvd.delivery.service.IOrderService.OrderMapper">
 
     <select id="orderJoinCustomers" resultMap="orderResultMap" >
         select * from customers inner join orders on customers.id = orders.customer_id;
@@ -25,7 +25,7 @@
         <id property="id" column="id"/>
         <result property="orderDate" javaType="java.util.Date" column="order_date" />
         <result property="deliveryDate" javaType="java.util.Date" column="delivery_date"/>
-        <collection property="customer" resultMap="myBatis.CustomerMapper.customerResultMap"/>
+        <collection property="customer" resultMap="com.solvd.delivery.service.ICustomerService.CustomerMapper.customerResultMap"/>
     </resultMap>
 
 </mapper>

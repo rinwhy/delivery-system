@@ -23,7 +23,7 @@ public class OrderService implements IOrderService {
     public List<Order> getOrdersJoinCustomers() {
         try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
             try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                return session.selectList("myBatis.OrderMapper.orderJoinCustomers");
+                return session.selectList("com.solvd.delivery.service.IOrderService.OrderMapper.orderJoinCustomers");
             }
         } catch (IOException e) {
             LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -37,7 +37,7 @@ public class OrderService implements IOrderService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    return session.selectOne("myBatis.OrderMapper.getByID", id);
+                    return session.selectOne("com.solvd.delivery.service.IOrderService.OrderMapper.getByID", id);
                 }
             } catch (IOException e) {
                 LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -52,7 +52,7 @@ public class OrderService implements IOrderService {
         if (id > 0) {
             try (InputStream stream = Resources.getResourceAsStream("mybatis-config.xml")) {
                 try (SqlSession session = new SqlSessionFactoryBuilder().build(stream).openSession()) {
-                    return session.selectList("myBatis.OrderMapper.getAllByID", id);
+                    return session.selectList("com.solvd.delivery.service.IOrderService.OrderMapper.getAllByID", id);
                 }
             } catch (IOException e) {
                 LOGGER.warn("IOException, error creating the sql session" + e.getMessage());
@@ -72,7 +72,7 @@ public class OrderService implements IOrderService {
                     map.put("id", id);
                     map.put("date", date);
 
-                    int rowsAffected = session.update("myBatis.OrderMapper.updateDeliveryDate", map);
+                    int rowsAffected = session.update("com.solvd.delivery.service.IOrderService.OrderMapper.updateDeliveryDate", map);
                     session.commit();
                     LOGGER.info("Rows Affected " + rowsAffected + "\n");
                 }
