@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IOrderService {
 
-    public List<Order> getOrderByUserID(int id);
-    public void updateDeliveryDate(int id, Date date);
+    List<Order> getOrdersJoinCustomers();
+    Order getOrderByID(int id);
+    List<Order> getAllOrdersByCustomersID(int id);
+    void updateDeliveryDate(int id, Date date);
 }

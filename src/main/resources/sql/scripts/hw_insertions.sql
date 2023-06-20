@@ -23,7 +23,7 @@ values
 
 
 insert into Orders (order_date, delivery_date, customer_id)
-values 
+values
     ('2023-05-18', '2023-05-21', 3),
 	('2023-05-25', null, 1),
     ('2023-05-27', null, 2);

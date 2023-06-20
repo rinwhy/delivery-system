@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IOrderDAO extends DAO<Order>{
 
+    List<Order> getOrdersJoinCustomers();
     List<Order> getAllForCustomer(int id);
 
     void updateDeliveryDate(Date date ,int id);

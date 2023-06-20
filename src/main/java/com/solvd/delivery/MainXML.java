@@ -1,7 +1,6 @@
 package com.solvd.delivery;
 
 import com.solvd.delivery.bin.*;
-import com.solvd.delivery.service.impl.JsonService;
 import com.solvd.delivery.service.impl.XMLService;
 import com.solvd.delivery.utils.jaxB.CustomersJaxB;
 import com.solvd.delivery.utils.jaxB.IJaxB;
@@ -15,13 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Main {
+public class MainXML {
 
-    private static final Logger LOGGER = LogManager.getLogger(Main.class);
+    private static final Logger LOGGER = LogManager.getLogger(MainXML.class);
 
     public static void main(String[] args) {
-
-        //region XML
 
         XMLService xmlService = new XMLService();
         // output files
@@ -52,7 +49,6 @@ public class Main {
         orderjaxB.setList(orderList);
 
 
-
         // marshalling and unmarshalling customers
         xmlService.marshallToXMLJaxB(customersJaxB, customersXML);
         IJaxB<Customer> unmarshalled = xmlService.unmarshallFromXMLJaxB(CustomersJaxB.class, customersXML);
@@ -62,30 +58,8 @@ public class Main {
         // marshalling and unmarshalling orders
         xmlService.marshallToXMLJaxB(orderjaxB, ordersXML);
         IJaxB<Order> unmarshalled2 = xmlService.unmarshallFromXMLJaxB(OrdersJaxB.class, ordersXML);
-        unmarshalled2.getList().forEach(order -> LOGGER.info(order.toString() + "\n") );
+        unmarshalled2.getList().forEach(order -> LOGGER.info(order.toString() + "\n"));
 
-        //endregion
-
-
-        //region JSON
-        JsonService jsonService = new JsonService();
-        File jsonFile = new File("src/main/resources/json/deliveries.json");
-
-        //serializing an delivery
-        Customer customer3 = new Customer(3, "Johanis Crabbington", "Unknown", "randomguy@gmail.com");
-        Order order3 = new Order(3, Date.valueOf("2023-02-03"), Date.valueOf("2023-02-13"), customer3);
-        Vehicle vehicle = new Vehicle(1, "Ford",  "E-Transit 2023", 300, true );
-        Driver driver = new Driver(1, "Johnny Drover", "driver@gmail.com", vehicle);
-        Delivery delivery = new Delivery(1, Date.valueOf("2023-02-13"), "In-Transit", driver, order3);
-
-        jsonService.serializeObjectToJson(delivery, jsonFile);
-
-        //de-serializing a JSON into an object
-        Delivery deliveryObj = jsonService.deserializeJsonToObject(Delivery.class, jsonFile);
-        LOGGER.info(deliveryObj);
-
-
-        //endregion
     }
 
 }
