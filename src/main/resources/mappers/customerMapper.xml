@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.ord//DTD Mapper 3.0//EN"
+        "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myBatis.CustomerMapper">
+
+    <select id="getByID" parameterType="int" resultMap="customerResultMap">
+        SELECT * FROM Customers WHERE ID = #{id};
+    </select>
+
+    <select id="getAll" resultMap="customerResultMap">
+        SELECT * FROM Customers;
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.delivery.bin.Customer">
+        insert into Customers(name, address, email) VALUES (#{name}, #{address}, #{email})
+    </insert>
+
+    <delete id="delete" parameterType="com.solvd.delivery.bin.Customer">
+        DELETE FROM Customers WHERE id = #{id};
+    </delete>
+
+    <resultMap id="customerResultMap" type="com.solvd.delivery.bin.Customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="email" column="email"/>
+    </resultMap>
+
+</mapper>

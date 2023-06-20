@@ -7,7 +7,11 @@ import com.solvd.delivery.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class OrderDAO implements IOrderDAO {
     private static final String DELETE = "DELETE FROM Orders WHERE id = ?";
     private static final String UPDATE = "UPDATE Orders SET order_date= ?, delivery_date= ?, customer_id= ? WHERE id= ?";
     private static final String UPDATE_DELIVERY_DATE = "UPDATE orders SET delivery_date = ? WHERE id = ?";
+    private static final String JOIN_ORDERS_CUSTOMERS = "select * from customers inner join orders on customers.id = orders.customer_id;";
 
 
     @Override
@@ -124,6 +129,32 @@ public class OrderDAO implements IOrderDAO {
     }
 
     @Override
+    public List<Order> getOrdersJoinCustomers() {
+
+        Connection connection = cp.requestConnection();
+        List<Order> orderList = new ArrayList<>();
+        ICustomerDAO customerDAO = new CustomerDAO();
+
+        try (PreparedStatement ps = connection.prepareStatement(JOIN_ORDERS_CUSTOMERS)) {
+            try (ResultSet results = ps.executeQuery()) {
+                while (results.next()) {
+                    Order order = new Order();
+                    order.setId(results.getInt("id"));
+                    order.setOrderDate(results.getDate("order_date"));
+                    order.setDeliveryDate(results.getDate("delivery_date"));
+                    order.setCustomer(customerDAO.getByID(results.getInt("customer_id")));
+                    orderList.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error:" + e.getMessage());
+        } finally {
+            cp.releaseConnection(connection);
+        }
+        return orderList;
+    }
+
+    @Override
     public List<Order> getAllForCustomer(int id) {
 
         Connection connection = cp.requestConnection();
@@ -155,7 +186,7 @@ public class OrderDAO implements IOrderDAO {
 
         Connection connection = cp.requestConnection();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_DELIVERY_DATE)) {
-            ps.setDate(1, date);
+            ps.setDate(1, (java.sql.Date) date);
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (SQLException e) {

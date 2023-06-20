@@ -3,36 +3,63 @@ package com.solvd.delivery.service.impl;
 import com.solvd.delivery.dao.IProductDAO;
 import com.solvd.delivery.bin.Product;
 import com.solvd.delivery.dao.impl.ProductDAO;
+import com.solvd.delivery.service.IProductService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class ProductService {
+public class ProductService implements IProductService {
 
-    IProductDAO productDAO = new ProductDAO();
+    private static final IProductDAO dao = new ProductDAO();
+    private static final Logger LOGGER = LogManager.getLogger(ProductService.class);
 
+    @Override
     public Product getProductByID(int id) {
-        return productDAO.getByID(id);
+        if (id > 0) {
+            return dao.getByID(id);
+        } else LOGGER.warn("Invalid ID provided! ");
+        return null;
     }
 
+    @Override
     public List<Product> getAllProducts() {
-        return productDAO.getAll();
+        return dao.getAll();
     }
 
-    public void addProduct(Product product) {
-        productDAO.insert(product);
+    @Override
+    public void addProductToDB(Product product) {
+        if (product.getName() != null &&
+                product.getDescription() != null &&
+                product.getPrice() > 0 &&
+                product.getStock() >= 0) {
+            dao.insert(product);
+            LOGGER.info("Successfully added to database\n");
+        } else
+            LOGGER.warn("Error inserting product to database");
     }
 
-    public void deleteProductByID(int id) {
-        productDAO.deleteByID(id);
+    @Override
+    public void removeProductByID(int id) {
+        if (id > 0) {
+            dao.deleteByID(id);
+        } else LOGGER.warn("Invalid ID provided! ");
     }
 
+    @Override
     public void updateProductPrice(int id, double price) {
-        productDAO.updateProductPrice(price,id);
+        if (id > 0 && price > 0) {
+            dao.updateProductPrice(id, price);
+        }
+        else LOGGER.warn("Invalid ID or price! ");
     }
 
+    @Override
     public void updateProductStock(int id, int stock) {
-        productDAO.updateProductStock(id, stock);
+        if (id > 0 && stock >= 0) {
+            dao.updateProductStock(id, stock);
+        }
+        else LOGGER.warn("Invalid ID or stock! ");
     }
-
 
 }

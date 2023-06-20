@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.ord//DTD Mapper 3.0//EN"
+        "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myBatis.ProductMapper">
+
+    <select id="getByID" parameterType="int" resultMap="productResultMap">
+        SELECT * FROM Products WHERE ID = #{id};
+    </select>
+
+    <select id="getAll" resultMap="productResultMap">
+        SELECT * FROM Products;
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.delivery.bin.Product">
+        INSERT INTO Products(name, description, price, stock) VALUES (#{name},#{description},#{price},#{stock})
+    </insert>
+
+    <delete id="delete" parameterType="com.solvd.delivery.bin.Product">
+        DELETE FROM Products WHERE id = #{id};
+    </delete>
+
+    <update id="updatePrice" parameterType="map" >
+        UPDATE Products SET price = #{price} WHERE id = #{id};
+    </update>
+
+    <update id="updateStock" parameterType="map">
+        UPDATE Products SET stock = #{stock} WHERE id = #{id};
+    </update>
+
+    <resultMap id="productResultMap" type="com.solvd.delivery.bin.Product">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description" />
+        <result property="price" column="price" />
+        <result property="stock" column="stock" />
+    </resultMap>
+    
+
+</mapper>

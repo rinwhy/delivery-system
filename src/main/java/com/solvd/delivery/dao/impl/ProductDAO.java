@@ -127,7 +127,7 @@ public class ProductDAO implements IProductDAO {
     }
 
     @Override
-    public void updateProductPrice(double price, int id) {
+    public void updateProductPrice(int id, double price) {
 
         Connection connection = cp.requestConnection();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_PRICE)) {
@@ -142,7 +142,7 @@ public class ProductDAO implements IProductDAO {
     }
 
     @Override
-    public void updateProductStock(int stock, int id) {
+    public void updateProductStock(int id, int stock) {
 
         Connection connection = cp.requestConnection();
         try (PreparedStatement ps = connection.prepareStatement(UPDATE_STOCK)) {
